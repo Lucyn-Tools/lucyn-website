@@ -69,7 +69,7 @@ export default function Hero() {
           }}
         >
           <span
-            className="pulse-dot w-1.5 h-1.5 rounded-full flex-shrink-0"
+            className="pulse-dot w-1.5 h-1.5 rounded-full shrink-0"
             style={{ backgroundColor: 'var(--success)' }}
           />
           Private beta — Join the waitlist
@@ -97,7 +97,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.18 }}
-          className="text-lg leading-relaxed mb-10 max-w-[520px]"
+          className="text-lg leading-relaxed mb-10 max-w-130"
           style={{ color: 'var(--text-muted)' }}
         >
           Lucyn understands your codebase, your people, and your product
@@ -116,7 +116,7 @@ export default function Hero() {
               className="py-4 text-base font-medium"
               style={{ color: 'var(--success)' }}
             >
-              You're on the list. We'll be in touch.
+              You&apos;re on the list. We&apos;ll be in touch.
             </div>
           ) : (
             <>
@@ -162,7 +162,7 @@ export default function Hero() {
                 </p>
               )}
               <p className="mt-3 text-xs" style={{ color: 'var(--text-faint)' }}>
-                No spam. We'll reach out when you're up next.
+                No spam. We&apos;ll reach out when you&apos;re up next.
               </p>
             </>
           )}

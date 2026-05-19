@@ -61,7 +61,7 @@ export default function Waitlist() {
             className="text-base mb-10 leading-relaxed"
             style={{ color: 'var(--text-muted)' }}
           >
-            We're onboarding engineering teams one at a time. Early access
+            We&apos;re onboarding engineering teams one at a time. Early access
             teams get white-glove setup and direct input into the roadmap.
           </p>
         </motion.div>
@@ -84,10 +84,10 @@ export default function Waitlist() {
                 className="text-lg font-medium mb-1"
                 style={{ color: 'var(--success)' }}
               >
-                You're on the list.
+                You&apos;re on the list.
               </div>
               <div className="text-sm" style={{ color: 'var(--text-muted)' }}>
-                We'll be in touch.
+                We&apos;ll be in touch.
               </div>
             </div>
           ) : (
