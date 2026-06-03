@@ -85,6 +85,9 @@ export default function Hero() {
         >
           {status === 'success' ? (
             <div
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
               className="py-4 text-base font-medium"
               style={{ color: 'var(--success)' }}
             >
@@ -138,7 +141,7 @@ export default function Hero() {
                 </motion.button>
               </form>
               {status === 'error' && (
-                <p className="mt-2 text-xs text-left" style={{ color: 'var(--danger)' }}>
+                <p role="alert" aria-live="assertive" aria-atomic="true" className="mt-2 text-xs text-left" style={{ color: 'var(--danger)' }}>
                   {errorMsg}
                 </p>
               )}

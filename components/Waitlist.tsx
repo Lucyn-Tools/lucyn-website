@@ -51,7 +51,7 @@ export default function Waitlist() {
           }}
         >
           {status === 'success' ? (
-            <div className="py-4">
+            <div role="status" aria-live="polite" aria-atomic="true" className="py-4">
               <div
                 className="text-lg font-medium mb-1"
                 style={{ color: 'var(--success)' }}
@@ -110,7 +110,7 @@ export default function Waitlist() {
                 }
               />
               {status === 'error' && (
-                <p className="text-xs" style={{ color: 'var(--danger)' }}>
+                <p role="alert" aria-live="assertive" aria-atomic="true" className="text-xs" style={{ color: 'var(--danger)' }}>
                   {errorMsg}
                 </p>
               )}

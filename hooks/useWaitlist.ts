@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { useState, useRef, type FormEvent } from 'react';
 
 export type FormStatus = 'idle' | 'loading' | 'success' | 'error';
 
@@ -9,9 +9,12 @@ export function useWaitlist({ includeCompany = false }: { includeCompany?: boole
   const [company, setCompany] = useState('');
   const [status, setStatus] = useState<FormStatus>('idle');
   const [errorMsg, setErrorMsg] = useState('');
+  const inFlightRef = useRef(false);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (inFlightRef.current) return;
+    inFlightRef.current = true;
     setStatus('loading');
     setErrorMsg('');
 
@@ -32,6 +35,8 @@ export function useWaitlist({ includeCompany = false }: { includeCompany?: boole
     } catch {
       setErrorMsg('Network error. Please try again.');
       setStatus('error');
+    } finally {
+      inFlightRef.current = false;
     }
   };
 
