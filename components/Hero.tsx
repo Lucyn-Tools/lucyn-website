@@ -1,39 +1,11 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
 import { motion } from 'framer-motion';
 import DashboardMockup from './DashboardMockup';
-
-type FormStatus = 'idle' | 'loading' | 'success' | 'error';
+import { useWaitlist } from '@/hooks/useWaitlist';
 
 export default function Hero() {
-  const [email, setEmail] = useState('');
-  const [status, setStatus] = useState<FormStatus>('idle');
-  const [errorMsg, setErrorMsg] = useState('');
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setStatus('loading');
-    setErrorMsg('');
-
-    try {
-      const res = await fetch('/api/waitlist', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
-      const data = (await res.json()) as { error?: string; success?: boolean };
-      if (!res.ok) {
-        setErrorMsg(data.error ?? 'Something went wrong.');
-        setStatus('error');
-      } else {
-        setStatus('success');
-      }
-    } catch {
-      setErrorMsg('Network error. Please try again.');
-      setStatus('error');
-    }
-  };
+  const { email, setEmail, status, errorMsg, handleSubmit } = useWaitlist();
 
   return (
     <section
@@ -84,7 +56,7 @@ export default function Hero() {
           style={{
             color: 'var(--text)',
             letterSpacing: '-0.03em',
-            fontSize: 'clamp(36px, 6vw, 68px)',
+            fontSize: 'clamp(40px, 5vw, 64px)',
           }}
         >
           The AI Product Engineer
@@ -113,6 +85,9 @@ export default function Hero() {
         >
           {status === 'success' ? (
             <div
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
               className="py-4 text-base font-medium"
               style={{ color: 'var(--success)' }}
             >
@@ -121,13 +96,16 @@ export default function Hero() {
           ) : (
             <>
               <form onSubmit={handleSubmit} className="flex gap-2">
+                <label htmlFor="hero-email" className="sr-only">Email address</label>
                 <input
+                  id="hero-email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="your@company.com"
                   required
-                  className="flex-1 px-4 py-2.5 rounded text-sm outline-none transition-all duration-150"
+                  disabled={status === 'loading'}
+                  className="flex-1 px-4 py-2.5 rounded text-sm outline-none transition-all duration-150 disabled:opacity-50"
                   style={{
                     background: 'var(--bg-elevated)',
                     border: '1px solid var(--border-mid)',
@@ -145,7 +123,7 @@ export default function Hero() {
                   type="submit"
                   disabled={status === 'loading'}
                   whileTap={{ scale: 0.97 }}
-                  className="px-5 py-2.5 rounded text-sm font-medium whitespace-nowrap"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-medium whitespace-nowrap"
                   style={{
                     background: 'var(--accent)',
                     color: '#0a0a0a',
@@ -153,11 +131,17 @@ export default function Hero() {
                     transition: 'opacity 150ms ease',
                   }}
                 >
+                  {status === 'loading' && (
+                    <svg className="animate-spin" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" opacity="0.25" />
+                      <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+                    </svg>
+                  )}
                   {status === 'loading' ? 'Joining...' : 'Join waitlist →'}
                 </motion.button>
               </form>
               {status === 'error' && (
-                <p className="mt-2 text-xs text-left" style={{ color: 'var(--danger)' }}>
+                <p role="alert" aria-live="assertive" aria-atomic="true" className="mt-2 text-xs text-left" style={{ color: 'var(--danger)' }}>
                   {errorMsg}
                 </p>
               )}

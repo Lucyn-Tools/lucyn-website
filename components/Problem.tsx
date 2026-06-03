@@ -7,24 +7,28 @@ import type { LucideIcon } from 'lucide-react';
 interface ProblemCard {
   icon: LucideIcon;
   title: string;
-  body: string;
+  statement: string;
+  sentence: string;
 }
 
 const problems: ProblemCard[] = [
   {
     icon: GitBranch,
     title: 'Fragmented data',
-    body: 'GitHub. Discord. Jira. Meetings. No single source of truth — so nothing ever connects.',
+    statement: 'GitHub. Discord. Jira. Meetings.',
+    sentence: 'No single source of truth.',
   },
   {
     icon: EyeOff,
     title: 'Invisible work',
-    body: 'Senior contributions go unrecognized. Managers see output, not impact.',
+    statement: 'Senior contributions go unrecognized.',
+    sentence: 'Managers see output, not impact.',
   },
   {
     icon: MessageSquareOff,
     title: 'Meetings forgotten',
-    body: 'Decisions made in standups vanish. Nobody follows up. Nothing ships.',
+    statement: 'Decisions made in standups vanish.',
+    sentence: 'Nobody follows up. Nothing ships.',
   },
 ];
 
@@ -66,8 +70,11 @@ export default function Problem() {
               >
                 {item.title}
               </h3>
+              <p className="text-sm font-medium mb-1" style={{ color: 'var(--text)' }}>
+                {item.statement}
+              </p>
               <p className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>
-                {item.body}
+                {item.sentence}
               </p>
             </motion.div>
           ))}

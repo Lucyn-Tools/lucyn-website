@@ -1,39 +1,11 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
 import { motion } from 'framer-motion';
-
-type FormStatus = 'idle' | 'loading' | 'success' | 'error';
+import { useWaitlist } from '@/hooks/useWaitlist';
 
 export default function Waitlist() {
-  const [email, setEmail] = useState('');
-  const [company, setCompany] = useState('');
-  const [status, setStatus] = useState<FormStatus>('idle');
-  const [errorMsg, setErrorMsg] = useState('');
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setStatus('loading');
-    setErrorMsg('');
-
-    try {
-      const res = await fetch('/api/waitlist', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, company }),
-      });
-      const data = (await res.json()) as { error?: string; success?: boolean };
-      if (!res.ok) {
-        setErrorMsg(data.error ?? 'Something went wrong.');
-        setStatus('error');
-      } else {
-        setStatus('success');
-      }
-    } catch {
-      setErrorMsg('Network error. Please try again.');
-      setStatus('error');
-    }
-  };
+  const { email, setEmail, company, setCompany, status, errorMsg, handleSubmit } =
+    useWaitlist({ includeCompany: true });
 
   return (
     <section
@@ -79,7 +51,7 @@ export default function Waitlist() {
           }}
         >
           {status === 'success' ? (
-            <div className="py-4">
+            <div role="status" aria-live="polite" aria-atomic="true" className="py-4">
               <div
                 className="text-lg font-medium mb-1"
                 style={{ color: 'var(--success)' }}
@@ -92,13 +64,16 @@ export default function Waitlist() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-3 text-left">
+              <label htmlFor="waitlist-email" className="sr-only">Email address</label>
               <input
+                id="waitlist-email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@company.com"
                 required
-                className="w-full px-4 py-2.5 rounded text-sm outline-none transition-all duration-150"
+                disabled={status === 'loading'}
+                className="w-full px-4 py-2.5 rounded text-sm outline-none transition-all duration-150 disabled:opacity-50"
                 style={{
                   background: 'var(--bg-elevated)',
                   border: '1px solid var(--border-mid)',
@@ -112,12 +87,15 @@ export default function Waitlist() {
                   (e.currentTarget.style.borderColor = 'var(--border-mid)')
                 }
               />
+              <label htmlFor="waitlist-company" className="sr-only">Company name</label>
               <input
+                id="waitlist-company"
                 type="text"
                 value={company}
                 onChange={(e) => setCompany(e.target.value)}
                 placeholder="Company name (optional)"
-                className="w-full px-4 py-2.5 rounded text-sm outline-none transition-all duration-150"
+                disabled={status === 'loading'}
+                className="w-full px-4 py-2.5 rounded text-sm outline-none transition-all duration-150 disabled:opacity-50"
                 style={{
                   background: 'var(--bg-elevated)',
                   border: '1px solid var(--border-mid)',
@@ -132,7 +110,7 @@ export default function Waitlist() {
                 }
               />
               {status === 'error' && (
-                <p className="text-xs" style={{ color: 'var(--danger)' }}>
+                <p role="alert" aria-live="assertive" aria-atomic="true" className="text-xs" style={{ color: 'var(--danger)' }}>
                   {errorMsg}
                 </p>
               )}
@@ -140,7 +118,7 @@ export default function Waitlist() {
                 type="submit"
                 disabled={status === 'loading'}
                 whileTap={{ scale: 0.97 }}
-                className="w-full py-2.5 rounded text-sm font-medium"
+                className="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded text-sm font-medium"
                 style={{
                   background: 'var(--accent)',
                   color: '#0a0a0a',
@@ -148,6 +126,12 @@ export default function Waitlist() {
                   transition: 'opacity 150ms ease',
                 }}
               >
+                {status === 'loading' && (
+                  <svg className="animate-spin" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" opacity="0.25" />
+                    <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+                  </svg>
+                )}
                 {status === 'loading' ? 'Joining...' : 'Join waitlist →'}
               </motion.button>
               <p className="text-xs text-center" style={{ color: 'var(--text-faint)' }}>
