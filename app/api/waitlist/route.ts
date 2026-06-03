@@ -1,5 +1,10 @@
 export async function POST(request: Request) {
-  const body = (await request.json()) as { email?: string; company?: string };
+  let body: { email?: string; company?: string };
+  try {
+    body = (await request.json()) as { email?: string; company?: string };
+  } catch {
+    return Response.json({ error: 'Invalid request body' }, { status: 400 });
+  }
   const { email, company } = body;
 
   if (!email || !email.includes('@')) {
