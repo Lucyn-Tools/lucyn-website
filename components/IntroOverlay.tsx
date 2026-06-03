@@ -8,9 +8,16 @@ export default function IntroOverlay() {
   const lucynRef = useRef<HTMLSpanElement>(null);
   const periodRef = useRef<HTMLSpanElement>(null);
   const circleRef = useRef<HTMLDivElement>(null);
-  const [show, setShow] = useState(true);
+  // Initialise from sessionStorage so we never call setShow synchronously
+  // inside an effect (which triggers cascading renders).
+  const [show, setShow] = useState(() => {
+    if (typeof window === 'undefined') return true;
+    return !sessionStorage.getItem('lucyn-intro-played');
+  });
 
   useEffect(() => {
+    // When show is false the component returns null so all refs are null —
+    // the guard below handles that without needing show in the dep array.
     const overlay = overlayRef.current;
     const text = textRef.current;
     const lucyn = lucynRef.current;
@@ -18,10 +25,6 @@ export default function IntroOverlay() {
     const circle = circleRef.current;
     if (!overlay || !text || !lucyn || !period || !circle) return;
 
-    if (sessionStorage.getItem('lucyn-intro-played')) {
-      setShow(false);
-      return;
-    }
     sessionStorage.setItem('lucyn-intro-played', 'true');
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
