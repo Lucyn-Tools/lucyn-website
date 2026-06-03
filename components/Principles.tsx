@@ -1,13 +1,4 @@
-'use client';
-
-import { motion } from 'framer-motion';
-
-interface Principle {
-  title: string;
-  body: string;
-}
-
-const principles: Principle[] = [
+const items = [
   {
     title: 'Acts, not reports',
     body: 'Existing tools analyze your data. Lucyn does something with it.',
@@ -28,41 +19,90 @@ const principles: Principle[] = [
 
 export default function Principles() {
   return (
-    <section className="py-24 px-6" style={{ background: 'var(--bg)' }}>
-      <div className="max-w-5xl mx-auto">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-3xl sm:text-4xl font-bold mb-16 text-center"
-          style={{ color: 'var(--text)', letterSpacing: '-0.02em' }}
+    <section style={{ padding: '160px 0', background: 'var(--bg-subtle)' }}>
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px' }}>
+        <p
+          className="reveal"
+          style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: '11px',
+            color: 'var(--text-faint)',
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+            textAlign: 'center',
+            marginBottom: '24px',
+          }}
         >
-          Built different.
-        </motion.h2>
+          Built Different
+        </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-16 gap-y-10">
-          {principles.map((item, i) => (
-            <motion.div
+        <h2
+          className="reveal"
+          data-delay="1"
+          style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: 'clamp(32px, 4vw, 48px)',
+            fontWeight: 700,
+            color: 'var(--white)',
+            textAlign: 'center',
+            letterSpacing: '-0.02em',
+            lineHeight: 1.15,
+            maxWidth: '640px',
+            margin: '0 auto 80px',
+          }}
+        >
+          The tools you use measure output. Lucyn measures understanding.
+        </h2>
+
+        <div
+          className="principles-grid"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            columnGap: '64px',
+            rowGap: '48px',
+            maxWidth: '800px',
+            margin: '0 auto',
+          }}
+        >
+          {items.map((item, i) => (
+            <div
               key={item.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
+              className="reveal"
+              data-delay={`${(i % 2) + 1}`}
             >
               <h3
-                className="font-semibold mb-2 text-base"
-                style={{ color: 'var(--text)', letterSpacing: '-0.01em' }}
+                style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '16px',
+                  fontWeight: 600,
+                  color: 'var(--white)',
+                  marginBottom: '8px',
+                  letterSpacing: '-0.01em',
+                }}
               >
                 {item.title}
               </h3>
-              <p className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+              <p
+                style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '14px',
+                  color: 'var(--text-muted)',
+                  lineHeight: 1.65,
+                }}
+              >
                 {item.body}
               </p>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
+
+    <style>{`
+      @media (max-width: 600px) {
+        .principles-grid { grid-template-columns: 1fr !important; }
+      }
+    `}</style>
     </section>
   );
 }

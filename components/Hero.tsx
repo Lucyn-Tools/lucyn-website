@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useState } from 'react';
 import DashboardMockup from './DashboardMockup';
 import { useWaitlist } from '@/hooks/useWaitlist';
 
@@ -9,159 +9,171 @@ export default function Hero() {
 
   return (
     <section
-      className="relative flex flex-col items-center justify-center min-h-screen pt-14 px-6 pb-16"
-      style={{ background: 'var(--bg)' }}
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingTop: '120px',
+        paddingBottom: '80px',
+        paddingLeft: '24px',
+        paddingRight: '24px',
+        textAlign: 'center',
+        background: 'var(--bg)',
+        position: 'relative',
+      }}
     >
-      {/* Dot grid */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none"
+      {/* Eyebrow — plain mono text, no pill */}
+      <p
+        className="reveal"
         style={{
-          backgroundImage:
-            'radial-gradient(circle, rgba(255,255,255,0.055) 1px, transparent 1px)',
-          backgroundSize: '28px 28px',
-          maskImage:
-            'radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 100%)',
-          WebkitMaskImage:
-            'radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 100%)',
+          fontFamily: 'var(--font-mono)',
+          fontSize: '13px',
+          color: 'var(--text-faint)',
+          marginBottom: '28px',
+          letterSpacing: '0.02em',
         }}
-      />
+      >
+        The company brain for engineering teams.
+      </p>
 
-      <div className="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto w-full">
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-8 text-sm"
-          style={{
-            background: 'rgba(255,255,255,0.03)',
-            border: '1px solid var(--border-mid)',
-            color: 'var(--text-muted)',
-          }}
-        >
-          <span
-            className="pulse-dot w-1.5 h-1.5 rounded-full shrink-0"
-            style={{ backgroundColor: 'var(--success)' }}
-          />
-          Private beta — Join the waitlist
-        </motion.div>
+      {/* Headline */}
+      <h1
+        className="reveal"
+        data-delay="1"
+        style={{
+          fontFamily: 'var(--font-serif)',
+          fontSize: 'clamp(52px, 7vw, 88px)',
+          fontWeight: 700,
+          letterSpacing: '-0.02em',
+          lineHeight: 1.0,
+          color: 'var(--white)',
+          maxWidth: '900px',
+          marginBottom: '28px',
+        }}
+      >
+        The institutional memory
+        <br />
+        of your company.
+      </h1>
 
-        {/* Headline */}
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.08 }}
-          className="font-bold leading-[1.05] mb-6"
-          style={{
-            color: 'var(--text)',
-            letterSpacing: '-0.03em',
-            fontSize: 'clamp(40px, 5vw, 64px)',
-          }}
-        >
-          The AI Product Engineer
-          <br />
-          that works inside your company.
-        </motion.h1>
+      {/* Subheadline */}
+      <p
+        className="reveal"
+        data-delay="2"
+        style={{
+          fontSize: '18px',
+          color: 'var(--text-muted)',
+          maxWidth: '500px',
+          lineHeight: 1.6,
+          marginBottom: '40px',
+        }}
+      >
+        Lucyn turns scattered company knowledge into a living,
+        connected map of how your company actually works.
+      </p>
 
-        {/* Subheadline */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.18 }}
-          className="text-lg leading-relaxed mb-10 max-w-130"
-          style={{ color: 'var(--text-muted)' }}
-        >
-          Lucyn understands your codebase, your people, and your product
-          direction — then actively participates in execution.
-        </motion.p>
-
-        {/* CTA form */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.28 }}
-          className="w-full max-w-md"
-        >
-          {status === 'success' ? (
-            <div
-              role="status"
-              aria-live="polite"
-              aria-atomic="true"
-              className="py-4 text-base font-medium"
-              style={{ color: 'var(--success)' }}
-            >
-              You&apos;re on the list. We&apos;ll be in touch.
-            </div>
-          ) : (
-            <>
-              <form onSubmit={handleSubmit} className="flex gap-2">
-                <label htmlFor="hero-email" className="sr-only">Email address</label>
-                <input
-                  id="hero-email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="your@company.com"
-                  required
-                  disabled={status === 'loading'}
-                  className="flex-1 px-4 py-2.5 rounded text-sm outline-none transition-all duration-150 disabled:opacity-50"
-                  style={{
-                    background: 'var(--bg-elevated)',
-                    border: '1px solid var(--border-mid)',
-                    color: 'var(--text)',
-                    fontFamily: 'var(--font-geist-sans)',
-                  }}
-                  onFocus={(e) =>
-                    (e.currentTarget.style.borderColor = 'var(--accent-blue)')
-                  }
-                  onBlur={(e) =>
-                    (e.currentTarget.style.borderColor = 'var(--border-mid)')
-                  }
-                />
-                <motion.button
-                  type="submit"
-                  disabled={status === 'loading'}
-                  whileTap={{ scale: 0.97 }}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-medium whitespace-nowrap"
-                  style={{
-                    background: 'var(--accent)',
-                    color: '#0a0a0a',
-                    opacity: status === 'loading' ? 0.65 : 1,
-                    transition: 'opacity 150ms ease',
-                  }}
-                >
-                  {status === 'loading' && (
-                    <svg className="animate-spin" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" opacity="0.25" />
-                      <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-                    </svg>
-                  )}
-                  {status === 'loading' ? 'Joining...' : 'Join waitlist →'}
-                </motion.button>
-              </form>
-              {status === 'error' && (
-                <p role="alert" aria-live="assertive" aria-atomic="true" className="mt-2 text-xs text-left" style={{ color: 'var(--danger)' }}>
-                  {errorMsg}
-                </p>
-              )}
-              <p className="mt-3 text-xs" style={{ color: 'var(--text-faint)' }}>
-                No spam. We&apos;ll reach out when you&apos;re up next.
+      {/* CTA */}
+      <div className="reveal" data-delay="3" style={{ width: '100%', maxWidth: '420px' }}>
+        {status === 'success' ? (
+          <p style={{ fontSize: '14px', color: 'var(--text-muted)', padding: '12px 0' }}>
+            You&apos;re on the list. We&apos;ll reach out soon.
+          </p>
+        ) : (
+          <>
+            <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '8px' }}>
+              <label htmlFor="hero-email" className="sr-only">Email address</label>
+              <input
+                id="hero-email"
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="your@company.com"
+                required
+                disabled={status === 'loading'}
+                style={{
+                  flex: 1,
+                  background: 'var(--bg-subtle)',
+                  border: '1px solid var(--border-mid)',
+                  color: 'var(--text)',
+                  fontSize: '14px',
+                  padding: '11px 14px',
+                  borderRadius: 'var(--radius-sm)',
+                  outline: 'none',
+                  transition: 'border-color 150ms ease',
+                  minWidth: 0,
+                }}
+                onFocus={e => (e.currentTarget.style.borderColor = 'var(--border-strong)')}
+                onBlur={e => (e.currentTarget.style.borderColor = 'var(--border-mid)')}
+              />
+              <HeroSubmitButton loading={status === 'loading'} />
+            </form>
+            {status === 'error' && (
+              <p role="alert" style={{ fontSize: '12px', color: 'var(--red)', marginTop: '8px', textAlign: 'left' }}>
+                {errorMsg}
               </p>
-            </>
-          )}
-        </motion.div>
+            )}
+            <p style={{ fontSize: '12px', color: 'var(--text-faint)', marginTop: '12px' }}>
+              No spam. We&apos;ll reach out when you&apos;re up next.
+            </p>
+          </>
+        )}
+      </div>
 
-        {/* Dashboard mockup */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.97, y: 24 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-16 w-full max-w-lg mx-auto"
-        >
-          <DashboardMockup />
-        </motion.div>
+      {/* Dashboard mockup */}
+      <div style={{ width: '100%', maxWidth: '900px', marginTop: '64px', position: 'relative' }}>
+        <DashboardMockup />
+        {/* Subtle glow beneath */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            bottom: '-80px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: '600px',
+            height: '200px',
+            background: 'radial-gradient(ellipse at center, rgba(35,131,226,0.04) 0%, transparent 70%)',
+            pointerEvents: 'none',
+          }}
+        />
       </div>
     </section>
+  );
+}
+
+function HeroSubmitButton({ loading }: { loading: boolean }) {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <button
+      type="submit"
+      disabled={loading}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onMouseDown={e => (e.currentTarget.style.transform = 'scale(0.98)')}
+      onMouseUp={e => (e.currentTarget.style.transform = 'scale(1)')}
+      style={{
+        background: hovered && !loading ? '#e8e8e8' : 'var(--white)',
+        color: '#000',
+        fontWeight: 500,
+        fontSize: '14px',
+        padding: '11px 18px',
+        borderRadius: 'var(--radius-sm)',
+        border: 'none',
+        cursor: loading ? 'not-allowed' : 'pointer',
+        whiteSpace: 'nowrap' as const,
+        transition: 'background 120ms ease, transform 100ms ease',
+        opacity: loading ? 0.7 : 1,
+        display: 'flex',
+        alignItems: 'center',
+        gap: '8px',
+        flexShrink: 0,
+      }}
+    >
+      {loading && <span className="spinner" />}
+      {loading ? 'Joining...' : 'Get early access'}
+    </button>
   );
 }

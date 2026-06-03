@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { useWaitlist } from '@/hooks/useWaitlist';
 
 export default function Waitlist() {
@@ -8,139 +8,178 @@ export default function Waitlist() {
     useWaitlist({ includeCompany: true });
 
   return (
-    <section
-      id="waitlist"
-      className="py-24 px-6"
-      style={{
-        background: 'var(--bg-subtle)',
-        borderTop: '1px solid var(--border)',
-      }}
-    >
-      <div className="max-w-xl mx-auto text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <h2
-            className="text-3xl sm:text-4xl font-bold mb-4"
-            style={{ color: 'var(--text)', letterSpacing: '-0.02em' }}
-          >
-            Be among the first.
-          </h2>
-          <p
-            className="text-base mb-10 leading-relaxed"
-            style={{ color: 'var(--text-muted)' }}
-          >
-            We&apos;re onboarding engineering teams one at a time. Early access
-            teams get white-glove setup and direct input into the roadmap.
-          </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="rounded-lg p-8"
+    <section id="waitlist" style={{ padding: '160px 0', background: 'var(--bg)' }}>
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px', textAlign: 'center' }}>
+        <h2
+          className="reveal"
           style={{
-            background: 'var(--bg)',
-            border: '1px solid var(--border-mid)',
-            boxShadow: '0 0 0 1px rgba(255,255,255,0.04)',
+            fontFamily: 'var(--font-serif)',
+            fontSize: 'clamp(40px, 5vw, 64px)',
+            fontWeight: 700,
+            color: 'var(--white)',
+            letterSpacing: '-0.02em',
+            lineHeight: 1.05,
+            marginBottom: '20px',
+          }}
+        >
+          Be among the first.
+        </h2>
+
+        <p
+          className="reveal"
+          data-delay="1"
+          style={{
+            fontSize: '16px',
+            color: 'var(--text-muted)',
+            maxWidth: '460px',
+            margin: '0 auto 48px',
+            lineHeight: 1.6,
+          }}
+        >
+          We&apos;re onboarding engineering teams one at a time. Early access teams get
+          white-glove setup and direct input into the roadmap.
+        </p>
+
+        <div
+          className="reveal"
+          data-delay="2"
+          style={{
+            maxWidth: '480px',
+            margin: '0 auto',
+            background: 'var(--bg-subtle)',
+            border: '1px solid var(--border)',
+            borderRadius: 'var(--radius-lg)',
+            padding: '32px',
+            textAlign: 'left',
           }}
         >
           {status === 'success' ? (
-            <div role="status" aria-live="polite" aria-atomic="true" className="py-4">
-              <div
-                className="text-lg font-medium mb-1"
-                style={{ color: 'var(--success)' }}
-              >
+            <div
+              role="status"
+              aria-live="polite"
+              style={{
+                textAlign: 'center',
+                padding: '16px 0',
+                animation: 'fadeInSuccess 400ms ease forwards',
+              }}
+            >
+              <p style={{ fontSize: '18px', color: 'var(--white)', marginBottom: '8px', fontWeight: 500 }}>
                 You&apos;re on the list.
-              </div>
-              <div className="text-sm" style={{ color: 'var(--text-muted)' }}>
+              </p>
+              <p style={{ fontSize: '14px', color: 'var(--text-muted)' }}>
                 We&apos;ll be in touch.
-              </div>
+              </p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col gap-3 text-left">
-              <label htmlFor="waitlist-email" className="sr-only">Email address</label>
-              <input
-                id="waitlist-email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="your@company.com"
-                required
-                disabled={status === 'loading'}
-                className="w-full px-4 py-2.5 rounded text-sm outline-none transition-all duration-150 disabled:opacity-50"
-                style={{
-                  background: 'var(--bg-elevated)',
-                  border: '1px solid var(--border-mid)',
-                  color: 'var(--text)',
-                  fontFamily: 'var(--font-geist-sans)',
-                }}
-                onFocus={(e) =>
-                  (e.currentTarget.style.borderColor = 'var(--accent-blue)')
-                }
-                onBlur={(e) =>
-                  (e.currentTarget.style.borderColor = 'var(--border-mid)')
-                }
-              />
-              <label htmlFor="waitlist-company" className="sr-only">Company name</label>
-              <input
-                id="waitlist-company"
-                type="text"
-                value={company}
-                onChange={(e) => setCompany(e.target.value)}
-                placeholder="Company name (optional)"
-                disabled={status === 'loading'}
-                className="w-full px-4 py-2.5 rounded text-sm outline-none transition-all duration-150 disabled:opacity-50"
-                style={{
-                  background: 'var(--bg-elevated)',
-                  border: '1px solid var(--border-mid)',
-                  color: 'var(--text)',
-                  fontFamily: 'var(--font-geist-sans)',
-                }}
-                onFocus={(e) =>
-                  (e.currentTarget.style.borderColor = 'var(--accent-blue)')
-                }
-                onBlur={(e) =>
-                  (e.currentTarget.style.borderColor = 'var(--border-mid)')
-                }
-              />
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div>
+                <label htmlFor="waitlist-email" className="sr-only">Email address</label>
+                <input
+                  id="waitlist-email"
+                  type="email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  placeholder="your@company.com"
+                  required
+                  disabled={status === 'loading'}
+                  style={{
+                    width: '100%',
+                    background: 'var(--bg-elevated)',
+                    border: `1px solid ${status === 'error' ? 'var(--red)' : 'var(--border-mid)'}`,
+                    color: 'var(--text)',
+                    fontSize: '14px',
+                    padding: '11px 14px',
+                    borderRadius: 'var(--radius-sm)',
+                    outline: 'none',
+                    transition: 'border-color 150ms ease',
+                    opacity: status === 'loading' ? 0.6 : 1,
+                  }}
+                  onFocus={e => (e.currentTarget.style.borderColor = 'var(--border-strong)')}
+                  onBlur={e => (e.currentTarget.style.borderColor = status === 'error' ? 'var(--red)' : 'var(--border-mid)')}
+                />
+              </div>
+
+              <div>
+                <label htmlFor="waitlist-company" className="sr-only">Company name</label>
+                <input
+                  id="waitlist-company"
+                  type="text"
+                  value={company}
+                  onChange={e => setCompany(e.target.value)}
+                  placeholder="Company name (optional)"
+                  disabled={status === 'loading'}
+                  style={{
+                    width: '100%',
+                    background: 'var(--bg-elevated)',
+                    border: '1px solid var(--border-mid)',
+                    color: 'var(--text)',
+                    fontSize: '14px',
+                    padding: '11px 14px',
+                    borderRadius: 'var(--radius-sm)',
+                    outline: 'none',
+                    transition: 'border-color 150ms ease',
+                    opacity: status === 'loading' ? 0.6 : 1,
+                  }}
+                  onFocus={e => (e.currentTarget.style.borderColor = 'var(--border-strong)')}
+                  onBlur={e => (e.currentTarget.style.borderColor = 'var(--border-mid)')}
+                />
+              </div>
+
               {status === 'error' && (
-                <p role="alert" aria-live="assertive" aria-atomic="true" className="text-xs" style={{ color: 'var(--danger)' }}>
+                <p role="alert" aria-live="assertive" style={{ fontSize: '12px', color: 'var(--red)' }}>
                   {errorMsg}
                 </p>
               )}
-              <motion.button
-                type="submit"
-                disabled={status === 'loading'}
-                whileTap={{ scale: 0.97 }}
-                className="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded text-sm font-medium"
-                style={{
-                  background: 'var(--accent)',
-                  color: '#0a0a0a',
-                  opacity: status === 'loading' ? 0.65 : 1,
-                  transition: 'opacity 150ms ease',
-                }}
-              >
-                {status === 'loading' && (
-                  <svg className="animate-spin" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" opacity="0.25" />
-                    <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-                  </svg>
-                )}
-                {status === 'loading' ? 'Joining...' : 'Join waitlist →'}
-              </motion.button>
-              <p className="text-xs text-center" style={{ color: 'var(--text-faint)' }}>
+
+              <WaitlistSubmitButton loading={status === 'loading'} />
+
+              <p style={{ fontSize: '12px', color: 'var(--text-faint)', textAlign: 'center' }}>
                 We read every submission. No automated responses.
               </p>
             </form>
           )}
-        </motion.div>
+        </div>
       </div>
+
+      <style>{`
+        @keyframes fadeInSuccess {
+          from { opacity: 0; transform: translateY(8px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </section>
+  );
+}
+
+function WaitlistSubmitButton({ loading }: { loading: boolean }) {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <button
+      type="submit"
+      disabled={loading}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        width: '100%',
+        background: hovered && !loading ? '#e8e8e8' : 'var(--white)',
+        color: '#000',
+        fontWeight: 600,
+        fontSize: '15px',
+        padding: '13px',
+        borderRadius: 'var(--radius-sm)',
+        border: 'none',
+        cursor: loading ? 'not-allowed' : 'pointer',
+        transition: 'background 120ms ease',
+        opacity: loading ? 0.7 : 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '8px',
+      }}
+    >
+      {loading && <span className="spinner" />}
+      {loading ? 'Joining...' : 'Request early access'}
+    </button>
   );
 }
