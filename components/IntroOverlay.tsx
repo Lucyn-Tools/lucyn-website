@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 export default function IntroOverlay() {
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -8,12 +8,16 @@ export default function IntroOverlay() {
   const lucynRef = useRef<HTMLSpanElement>(null);
   const periodRef = useRef<HTMLSpanElement>(null);
   const circleRef = useRef<HTMLDivElement>(null);
-  // Initialise from sessionStorage so we never call setShow synchronously
-  // inside an effect (which triggers cascading renders).
-  const [show, setShow] = useState(() => {
-    if (typeof window === 'undefined') return true;
-    return !sessionStorage.getItem('lucyn-intro-played');
-  });
+  // Always start true (matches SSR). useLayoutEffect hides it before the
+  // browser paints if the intro has already been played, avoiding a hydration
+  // mismatch that previously caused a black screen on reload.
+  const [show, setShow] = useState(true);
+
+  useLayoutEffect(() => {
+    if (sessionStorage.getItem('lucyn-intro-played')) {
+      setShow(false);
+    }
+  }, []);
 
   useEffect(() => {
     // When show is false the component returns null so all refs are null —
