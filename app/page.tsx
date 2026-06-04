@@ -1,4 +1,4 @@
-import IntroOverlay from '@/components/IntroOverlay';
+import IntroOverlay from '@/components/IntroOverlayNoSSR';
 import Nav from '@/components/Nav';
 import Hero from '@/components/Hero';
 import ParticleCanvas from '@/components/ParticleCanvas';
