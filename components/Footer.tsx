@@ -30,7 +30,7 @@ export default function Footer() {
         </span>
 
         <a
-          href="https://github.com/lucyn-tools"
+          href="https://github.com/lucyn-ai"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="GitHub"

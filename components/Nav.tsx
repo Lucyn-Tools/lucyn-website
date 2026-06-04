@@ -56,7 +56,7 @@ export default function Nav() {
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <a
-            href="https://github.com/lucyn-tools"
+            href="https://github.com/lucyn-ai"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub"
