@@ -132,7 +132,7 @@ export default function Hero() {
             bottom: '-80px',
             left: '50%',
             transform: 'translateX(-50%)',
-            width: '600px',
+            width: 'min(600px, 90vw)',
             height: '200px',
             background: 'radial-gradient(ellipse at center, rgba(35,131,226,0.04) 0%, transparent 70%)',
             pointerEvents: 'none',

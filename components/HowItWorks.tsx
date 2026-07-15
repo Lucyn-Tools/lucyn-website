@@ -134,6 +134,7 @@ export default function HowItWorks() {
 
         {/* Steps row */}
         <div
+          className="hiw-steps"
           style={{
             display: 'flex',
             alignItems: 'flex-start',
@@ -318,6 +319,7 @@ function StepWithConnector({
 
       {!isLast && (
         <div
+          className="hiw-connector"
           style={{
             flexShrink: 0,
             width: '40px',
