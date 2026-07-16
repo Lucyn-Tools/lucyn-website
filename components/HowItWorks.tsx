@@ -79,6 +79,11 @@ export default function HowItWorks() {
           observer.disconnect();
           setStreaming(true);
 
+          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            setWordCount(RESPONSE_WORDS.length);
+            return;
+          }
+
           let i = 0;
           const tick = () => {
             i++;

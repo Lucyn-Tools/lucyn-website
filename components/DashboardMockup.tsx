@@ -50,6 +50,12 @@ export default function DashboardMockup() {
   useEffect(() => {
     const el = animRef.current;
     if (!el) return;
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+      return;
+    }
     el.style.opacity = '0';
     el.style.transform = 'translateY(40px) scale(0.98)';
     const t = setTimeout(() => {
@@ -65,6 +71,7 @@ export default function DashboardMockup() {
   useEffect(() => {
     const el = parallaxRef.current;
     if (!el) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const fn = () => {
       const rect = el.getBoundingClientRect();
       if (rect.top < window.innerHeight && rect.bottom > 0) {

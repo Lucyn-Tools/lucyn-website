@@ -20,8 +20,8 @@
   /* Text */
   --text:          #f0f0f0;
   --text-muted:    #888888;
-  --text-faint:    #444444;
-  --text-xfaint:   #2a2a2a;
+  --text-faint:    #808080;
+  --text-xfaint:   #7c7c7c;
 
   /* Accents */
   --white:         #ffffff;
