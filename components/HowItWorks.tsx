@@ -258,7 +258,7 @@ export default function HowItWorks() {
           50%       { opacity: 0; }
         }
         @media (max-width: 768px) {
-          .hiw-steps { flex-direction: column !important; }
+          .hiw-steps { flex-direction: column !important; gap: 32px !important; }
           .hiw-connector { display: none !important; }
         }
       `}</style>
