@@ -134,6 +134,7 @@ export default function HowItWorks() {
 
         {/* Steps row */}
         <div
+          className="hiw-steps"
           style={{
             display: 'flex',
             alignItems: 'flex-start',
@@ -257,7 +258,7 @@ export default function HowItWorks() {
           50%       { opacity: 0; }
         }
         @media (max-width: 768px) {
-          .hiw-steps { flex-direction: column !important; }
+          .hiw-steps { flex-direction: column !important; gap: 32px !important; }
           .hiw-connector { display: none !important; }
         }
       `}</style>
@@ -318,6 +319,7 @@ function StepWithConnector({
 
       {!isLast && (
         <div
+          className="hiw-connector"
           style={{
             flexShrink: 0,
             width: '40px',
