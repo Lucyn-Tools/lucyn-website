@@ -1,0 +1,39 @@
+# Lucyn
+
+> Lucyn is the institutional memory of your company. It reads the work engineering
+> teams already produce — commits, pull requests, meetings, and conversations — and
+> turns it into a living, connected map of how the company actually works, then
+> answers questions about it in plain English with citations.
+
+Lucyn is currently pre-launch and operating a waitlist.
+
+## What it does
+
+- **Ingests**: Connects to GitHub, Discord, and Google Meet, reading commits, PRs,
+  meetings, and conversations continuously.
+- **Maps**: Classifies and embeds every signal into a structured knowledge graph
+  linking repos, developers, and decisions to the reasoning behind them.
+- **Answers**: Responds to plain-English questions about the organization with
+  grounded, cited answers — delivery risk, workload balance, code ownership,
+  and why past decisions were made.
+
+## Where it runs
+
+- **Leadership**: A dashboard surfacing engineering health, delivery confidence,
+  open PRs, and risk signals.
+- **Developers**: A Discord bot that assigns and explains work based on demonstrated
+  expertise.
+- **Full team**: The company brain itself, written as structured Markdown files —
+  human-readable, editable, and continuously updated.
+
+## Principles
+
+- **Acts, not reports**: Existing tools analyze data. Lucyn does something with it.
+- **Private by design**: Developer data is never shown to managers. Non-punitive, always.
+- **Human in the loop**: Every suggestion needs approval. Lucyn recommends, you decide.
+- **Gets smarter over time**: The longer it runs, the better it understands the org.
+
+## Links
+
+- [Website](https://lucyn-website.vercel.app)
+- [GitHub](https://github.com/lucyn-ai)
